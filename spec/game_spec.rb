@@ -17,10 +17,21 @@ describe Game do
   end
 
   describe '#update_value' do
-    context 'when spot is empty' do
-      it 'changes spots value to player color' do
-        num = 0
-        expect { game.update_value(num) }.to change { game.board.grid[5][num] }.from(0).to('y')
+    context 'when spot is valid' do
+      it 'sends update_value to board' do
+        valid_num = 4
+        piece = 'y'
+        expect(board).to receive(:update_value).with(valid_num, piece)
+        game.update_board(valid_num, piece)
+      end
+    end
+
+    context 'when spot is invalid' do
+      it 'doesnt send update_value to board' do
+        invalid_num = 40
+        piece = 'y'
+        expect(board).not_to receive(:update_value).with(invalid_num, piece)
+        game.update_board(invalid_num, piece)
       end
     end
   end

@@ -12,8 +12,7 @@ class Game
     num.between?(1, 7)
   end
 
-  def update_value(num)
-    # @board.update_value(num)
-    # @board.drawboard
+  def update_board(num, piece)
+    @board.update_value(num, piece) if valid?(num)
   end
 end
