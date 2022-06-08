@@ -18,4 +18,16 @@ class Board
       puts "\n------------------------------"
     end
   end
+
+  def update_value(row, piece)
+    num = -1
+    if @grid[num][row] == piece
+      loop do
+        break if @grid[num][row] != piece
+
+        num -= 1
+      end
+    end
+    @grid[num][row] = piece
+  end
 end
