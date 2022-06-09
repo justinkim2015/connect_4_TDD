@@ -27,16 +27,33 @@ describe Board do
       it 'changes spot above it' do
         player_color = 'y'
         row = 0
-        board.grid[-1][row] = 'y'
+        board.grid[-1][row] = player_color
         expect { board.update_value(row, player_color) }.to change { board.grid[-2][row] }.from(0).to(player_color)
       end
 
       it 'changes spot 2 above it' do
         player_color = 'y'
         row = 0
-        board.grid[-1][row] = 'y'
-        board.grid[-2][row] = 'y'
+        board.grid[-1][row] = player_color
+        board.grid[-2][row] = player_color
         expect { board.update_value(row, player_color) }.to change { board.grid[-3][row] }.from(0).to(player_color)
+      end
+    end
+
+    describe '#full_row?' do
+      context 'when row is full' do
+        it 'return true' do
+          player_color = 'y'
+          row = 0
+          board.grid[0][0..-1] = player_color
+          expect(board.full_row?(row)).to eq(true)
+        end
+      end
+      context 'when row isnt full' do
+        it 'return false' do
+          row = 0
+          expect(board.full_row?(row)).to eq(false)
+        end
       end
     end
   end

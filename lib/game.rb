@@ -8,11 +8,15 @@ class Game
     @turn = @player1
   end
 
-  def valid?(num)
-    num.between?(1, 7)
+  def valid_input?(row)
+    row.between?(1, 7)
   end
 
-  def update_board(num, piece)
-    @board.update_value(num, piece) if valid?(num)
+  def update_board(row, piece)
+    @board.update_value(row, piece) if valid_input?(row)
+  end
+
+  def place_piece(row, piece)
+    update_board(row, piece)
   end
 end

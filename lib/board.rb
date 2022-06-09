@@ -30,4 +30,11 @@ class Board
     end
     @grid[num][row] = piece
   end
+
+  def full_row?(row)
+    grid[row].each do |value|
+      return true if value != 0
+    end
+    false
+  end
 end
