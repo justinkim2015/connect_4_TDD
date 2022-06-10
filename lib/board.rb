@@ -21,9 +21,10 @@ class Board
 
   def update_value(row, piece)
     num = -1
-    if @grid[num][row] == piece
+    empty = 0
+    if @grid[num][row] != empty
       loop do
-        break if @grid[num][row] != piece
+        break if @grid[num][row] == empty
 
         num -= 1
       end
@@ -31,10 +32,9 @@ class Board
     @grid[num][row] = piece
   end
 
-  def full_row?(row)
-    grid[row].each do |value|
-      return true if value != 0
-    end
-    false
+  def row_not_full?(row)
+    num = -6
+    empty = 0
+    @grid[num][row] == empty
   end
 end

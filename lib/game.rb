@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :board
+  attr_accessor :board, :turn, :player1, :player2
 
   def initialize(player1 = Player.new('Player 1', 'y'), player2 = Player.new('Player 2', 'b'), board = Board.new)
     @player1 = player1
@@ -9,14 +9,36 @@ class Game
   end
 
   def valid_input?(row)
-    row.between?(1, 7)
+    row.between?(0, 6)
   end
 
-  def update_board(row, piece)
-    @board.update_value(row, piece) if valid_input?(row)
+  def valid?(row)
+    if valid_input?(row) && board.row_not_full?(row)
+      true
+    else
+      puts 'ERROR'
+      false
+    end
   end
 
   def place_piece(row, piece)
-    update_board(row, piece)
+    @board.update_value(row, piece)
+  end
+
+  def take_turn
+    puts 'Pick a row(0-6)'
+    row = gets.chomp.to_i
+    row = gets.chomp.to_i until valid?(row)
+    place_piece(row, turn.color)
+    board.drawboard
+    change_turn
+  end
+
+  def change_turn
+    @turn = if turn == @player1
+              @player2
+            else
+              @player1
+            end
   end
 end

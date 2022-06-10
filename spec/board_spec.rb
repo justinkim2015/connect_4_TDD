@@ -5,7 +5,7 @@ describe Board do
   subject(:board) { described_class.new }
 
   describe '#make_board' do
-    it 'makes a array length 6' do
+    it 'makes a array 6' do
       expect(board.grid.length).to eq(6)
     end
 
@@ -17,43 +17,52 @@ describe Board do
   describe '#update_spot' do
     context 'when spot is empty' do
       it 'changes spot' do
-        player_color = 'y'
+        piece = 'y'
         row = 0
-        expect { board.update_value(row, player_color) }.to change { board.grid[-1][row] }.from(0).to(player_color)
+        expect { board.update_value(row, piece) }.to change { board.grid[-1][row] }.from(0).to(piece)
       end
     end
 
     context 'when spot is not empty' do
       it 'changes spot above it' do
-        player_color = 'y'
+        piece = 'y'
         row = 0
-        board.grid[-1][row] = player_color
-        expect { board.update_value(row, player_color) }.to change { board.grid[-2][row] }.from(0).to(player_color)
+        board.grid[-1][row] = piece
+        expect { board.update_value(row, piece) }.to change { board.grid[-2][row] }.from(0).to(piece)
       end
 
       it 'changes spot 2 above it' do
+        piece = 'b'
+        row = 0
+        board.grid[-1][row] = piece
+        board.grid[-2][row] = piece
+        expect { board.update_value(row, piece) }.to change { board.grid[-3][row] }.from(0).to(piece)
+      end
+
+      it 'doesnt replace other players piece' do
+        p1_piece = 'y'
+        p2_piece = 'b'
+        row = 0
+        board.grid[-1][row] = p1_piece
+        expect { board.update_value(row, p2_piece) }.to_not(change { board.grid[-1][row] })
+      end
+    end
+  end
+
+  describe '#row_not_full?' do
+    context 'when row is full' do
+      it 'return false' do
         player_color = 'y'
         row = 0
-        board.grid[-1][row] = player_color
-        board.grid[-2][row] = player_color
-        expect { board.update_value(row, player_color) }.to change { board.grid[-3][row] }.from(0).to(player_color)
+        board.grid[0][0..-1] = player_color
+        expect(board.row_not_full?(row)).to eq(false)
       end
     end
 
-    describe '#full_row?' do
-      context 'when row is full' do
-        it 'return true' do
-          player_color = 'y'
-          row = 0
-          board.grid[0][0..-1] = player_color
-          expect(board.full_row?(row)).to eq(true)
-        end
-      end
-      context 'when row isnt full' do
-        it 'return false' do
-          row = 0
-          expect(board.full_row?(row)).to eq(false)
-        end
+    context 'when row isnt full' do
+      it 'return true' do
+        row = 0
+        expect(board.row_not_full?(row)).to eq(true)
       end
     end
   end
