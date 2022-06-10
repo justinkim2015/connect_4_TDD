@@ -8,7 +8,6 @@ describe Game do
   let(:player1) { double(Player) }
   let(:player2) { double(Player) }
   let(:board) { double(Board) }
-  # These ^^^ were previously 'player' and 'board'?
 
   before do
     allow(player1).to receive(:color) { 'y' }
@@ -53,6 +52,39 @@ describe Game do
       it 'vice-versa' do
         game.turn = player2
         expect { game.change_turn }.to change { game.turn }.from(player2).to(player1)
+      end
+    end
+  end
+
+  describe '#winner?' do
+    context 'when a winning condition is met' do
+      xit 'returns true' do
+        expect(game.winner?).to be true
+      end
+    end
+
+    context 'when a winning condition isnt met' do
+      xit 'returns false' do
+        expect(game.winner?).to be false
+      end
+    end
+  end
+
+  describe '#horizontal_win?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        row = 0
+        num = 0
+        allow(board).to receive(:grid) { Array.new(6) { Array.new(7, 'y') } }
+        expect(game.horizontal_win?(num, row)).to be true # All values are y
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        allow(board).to receive(:grid) { Array.new(6) { Array.new(7, 0) } }
+        board.grid[0][0] = 10
+        expect(game.horizontal_win?(0, 0)).to be false
       end
     end
   end

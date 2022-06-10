@@ -41,4 +41,14 @@ class Game
               @player1
             end
   end
+
+  def horizontal_win?(num, row)
+    array = []
+    array << board.grid[num][row + 1]
+    array << board.grid[num][row + 2]
+    array << board.grid[num][row + 3]
+    array << board.grid[num][row + 4]
+    p array
+    array.uniq.length == 1
+  end
 end
