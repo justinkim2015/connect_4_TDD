@@ -70,22 +70,106 @@ describe Game do
     end
   end
 
-  describe '#horizontal_win?' do
+  describe '#horizontal_win_pos?' do
     context 'when at least 4 spaces in a row are the same value' do
       it 'returns true' do
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+          [[['y'], ['y'], ['y'], ['y'], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]] 
+        }
+        expect(game.horizontal_win_pos?(num, row)).to be true # All values are y
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do # This test isnt working
         row = 0
         num = 0
-        allow(board).to receive(:grid) { Array.new(6) { Array.new(7, 'y') } }
-        expect(game.horizontal_win?(num, row)).to be true # All values are y
+        allow(board).to receive(:grid) {
+           [[[1], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]]] 
+          }
+        expect(game.horizontal_win_pos?(num, row)).to be false
+      end
+    end
+  end
+
+  describe '#horizontal_win_neg?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 0
+        row = 6
+        allow(board).to receive(:grid) {
+          [[[0], [0], [0], ['y'], ['y'], ['y'], ['y']],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.horizontal_win_neg?(num, row)).to be true 
       end
     end
 
     context 'when at least 4 spaces in a row arent the same value' do
       it 'returns false' do
-        allow(board).to receive(:grid) { Array.new(6) { Array.new(7, 0) } }
-        board.grid[0][0] = 10
-        expect(game.horizontal_win?(0, 0)).to be false
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+           [[[1], [0], [3], [0], [2], [0], [3]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.horizontal_win_neg?(num, row)).to be false
       end
     end
   end
+
+  describe '#vertical_win_pos?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+          [[['y'], [0], [0], ['y'], ['y'], ['y'], ['y']],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.vertical_win_pos?(num, row)).to be true
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+           [[[1], [3], [3], [5], [2], [0], [3]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[4], [0], [0], [0], [0], [0], [0]],
+            [[2], [0], [0], [0], [0], [0], [0]],
+            [[0], [0], [0], [0], [0], [0], [0]],
+            [[1], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.vertical_win_pos?(num, row)).to be false
+      end
+    end
+  end
+
 end

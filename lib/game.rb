@@ -42,12 +42,38 @@ class Game
             end
   end
 
-  def horizontal_win?(num, row)
+  def horizontal_win_pos?(num, row)
     array = []
-    array << board.grid[num][row + 1]
-    array << board.grid[num][row + 2]
-    array << board.grid[num][row + 3]
-    array << board.grid[num][row + 4]
+    i = 0
+    4.times do
+      array << board.grid[num][row + i]
+      i += 1
+    end
+    p array
+    array.uniq.length == 1
+  end
+
+  def horizontal_win_neg?(num, row)
+    array = []
+    i = 0
+    4.times do
+      if (row - i).negative?
+        array << nil
+      else
+        array << board.grid[num][row - i]
+      end
+      i += 1
+    end
+    array.uniq.length == 1
+  end
+
+  def vertical_win_pos?(num, row)
+    array = []
+    i = 0
+    4.times do
+      array << board.grid[num + i][row]
+      i += 1
+    end
     p array
     array.uniq.length == 1
   end
