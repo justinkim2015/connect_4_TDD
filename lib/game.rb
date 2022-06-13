@@ -96,7 +96,7 @@ class Game
     array = []
     i = 0
     4.times do # edit the rest of these like this
-      array << if (num - i).negative?
+      array << if board.grid[num - i].nil?
                  nil
                else
                  board.grid[num - i][row]
@@ -110,7 +110,11 @@ class Game
     array = []
     i = 0
     4.times do
-      array << board.grid[num - i][row + i]
+      if board.grid[num - i].nil?
+        array << nil
+      else
+        array << board.grid[num - i][row + i]
+      end
       i += 1
     end
     win_con(array)
@@ -134,7 +138,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if (num - i).negative? || (row - i).negative?
+      if board.grid[num - i].nil? || board.grid[row - i].nil?
         array << nil
       else
         array << board.grid[num - i][row - i]
