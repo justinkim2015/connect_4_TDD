@@ -58,19 +58,31 @@ describe Game do
 
   describe '#winner?' do
     context 'when a winning condition is met' do
-      xit 'returns true' do
-        expect(game.winner?).to be true
+      it 'returns true' do
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+          [[['y'], ['y'], ['y'], ['y'], ['y'], ['y'], ['y']],
+           [['y'], ['y'], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.winner?(num, row)).to be true
       end
     end
 
     context 'when a winning condition isnt met' do
-      xit 'returns false' do
-        expect(game.winner?).to be false
+      it 'returns false' do
+        num = 0
+        row = 0
+        expect(game.winner?(num, row)).to be nil
       end
     end
   end
 
-  describe '#horizontal_win_pos?' do
+  describe '#horizontal_win_right?' do
     context 'when at least 4 spaces in a row are the same value' do
       it 'returns true' do
         num = 0
@@ -81,30 +93,22 @@ describe Game do
            [[0], [0], [0], [0], [0], [0], [0]],
            [[0], [0], [0], [0], [0], [0], [0]],
            [[0], [0], [0], [0], [0], [0], [0]],
-           [[0], [0], [0], [0], [0], [0], [0]]] 
+           [[0], [0], [0], [0], [0], [0], [0]]]
         }
-        expect(game.horizontal_win_pos?(num, row)).to be true # All values are y
+        expect(game.horizontal_win_right?(num, row)).to be true
       end
     end
 
     context 'when at least 4 spaces in a row arent the same value' do
-      it 'returns false' do # This test isnt working
-        row = 0
-        num = 0
-        allow(board).to receive(:grid) {
-           [[[1], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]]] 
-          }
-        expect(game.horizontal_win_pos?(num, row)).to be false
+      it 'returns false' do
+        num = 5
+        row = 6
+        expect(game.horizontal_win_right?(num, row)).to be false
       end
     end
   end
 
-  describe '#horizontal_win_neg?' do
+  describe '#horizontal_win_left?' do
     context 'when at least 4 spaces in a row are the same value' do
       it 'returns true' do
         num = 0
@@ -117,28 +121,20 @@ describe Game do
            [[0], [0], [0], [0], [0], [0], [0]],
            [[0], [0], [0], [0], [0], [0], [0]]]
         }
-        expect(game.horizontal_win_neg?(num, row)).to be true 
+        expect(game.horizontal_win_left?(num, row)).to be true 
       end
     end
 
     context 'when at least 4 spaces in a row arent the same value' do
       it 'returns false' do
         num = 0
-        row = 0
-        allow(board).to receive(:grid) {
-           [[[1], [0], [3], [0], [2], [0], [3]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]]]
-        }
-        expect(game.horizontal_win_neg?(num, row)).to be false
+        row = 5
+        expect(game.horizontal_win_left?(num, row)).to be false
       end
     end
   end
 
-  describe '#vertical_win_pos?' do
+  describe '#vertical_win_down?' do
     context 'when at least 4 spaces in a row are the same value' do
       it 'returns true' do
         num = 0
@@ -151,7 +147,33 @@ describe Game do
            [[0], [0], [0], [0], [0], [0], [0]],
            [[0], [0], [0], [0], [0], [0], [0]]]
         }
-        expect(game.vertical_win_pos?(num, row)).to be true
+        expect(game.vertical_win_down?(num, row)).to be true
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        num = 5
+        row = 6
+        expect(game.vertical_win_down?(num, row)).to be false
+      end
+    end
+  end
+
+  describe '#vertical_win_up?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 3
+        row = 0
+        allow(board).to receive(:grid) {
+          [[['y'], [0], [0], ['y'], ['y'], ['y'], ['y']],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.vertical_win_up?(num, row)).to be true
       end
     end
 
@@ -159,17 +181,112 @@ describe Game do
       it 'returns false' do
         num = 0
         row = 0
-        allow(board).to receive(:grid) {
-           [[[1], [3], [3], [5], [2], [0], [3]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[4], [0], [0], [0], [0], [0], [0]],
-            [[2], [0], [0], [0], [0], [0], [0]],
-            [[0], [0], [0], [0], [0], [0], [0]],
-            [[1], [0], [0], [0], [0], [0], [0]]]
-        }
-        expect(game.vertical_win_pos?(num, row)).to be false
+        expect(game.vertical_win_up?(num, row)).to be false
       end
     end
   end
 
+  describe '#ur_win?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 0
+        row = 0
+        allow(board).to receive(:grid) {
+          [[[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], ['y'], [0], [0], [0]],
+           [[0], [0], ['y'], [0], [0], [0], [0]],
+           [[0], ['y'], [0], [0], [0], [0], [0]],
+           [['y'], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.ur_win?(num, row)).to be true
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        num = 5
+        row = 6
+        expect(game.ur_win?(num, row)).to be false
+      end
+    end
+
+    describe 'bl_win?' do
+      context 'when at least 4 spaces in a row are the same value' do
+        it 'returns true' do
+          num = 2
+          row = 3
+          allow(board).to receive(:grid) {
+            [[[0], [0], [0], [0], [0], [0], [0]],
+             [[0], [0], [0], [0], [0], [0], [0]],
+             [[0], [0], [0], ['y'], [0], [0], [0]],
+             [[0], [0], ['y'], [0], [0], [0], [0]],
+             [[0], ['y'], [0], [0], [0], [0], [0]],
+             [['y'], [0], [0], [0], [0], [0], [0]]]
+          }
+          expect(game.bl_win?(num, row)).to be true
+        end
+      end
+
+      context 'when at least 4 spaces in a row arent the same value' do
+        it 'returns false' do
+          num = 5
+          row = 6
+          expect(game.bl_win?(num, row)).to be false
+        end
+      end
+    end
+  end
+
+  describe 'ul_win?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 3
+        row = 3
+        allow(board).to receive(:grid) {
+          [[['y'], [0], [0], [0], [0], [0], [0]],
+           [[0], ['y'], [0], [0], [0], [0], [0]],
+           [[0], [0], ['y'], [0], [0], [0], [0]],
+           [[0], [0], [0], ['y'], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]]]
+        }
+        expect(game.ul_win?(num, row)).to be true
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        num = 5
+        row = 6
+        expect(game.ul_win?(num, row)).to be false
+      end
+    end
+  end
+
+  describe 'br_win?' do
+    context 'when at least 4 spaces in a row are the same value' do
+      it 'returns true' do
+        num = 2
+        row = 3
+        allow(board).to receive(:grid) {
+          [[[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], [0], [0], [0], [0]],
+           [[0], [0], [0], ['y'], [0], [0], [0]],
+           [[0], [0], [0], [0], ['y'], [0], [0]],
+           [[0], [0], [0], [0], [0], ['y'], [0]],
+           [[0], [0], [0], [0], [0], [0], ['y']]]
+        }
+        expect(game.br_win?(num, row)).to be true
+      end
+    end
+
+    context 'when at least 4 spaces in a row arent the same value' do
+      it 'returns false' do
+        num = 5
+        row = 6
+        expect(game.br_win?(num, row)).to be false
+      end
+    end
+  end
 end

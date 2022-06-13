@@ -1,3 +1,5 @@
+require 'pry'
+
 class Board
   attr_accessor :grid
 
@@ -20,15 +22,7 @@ class Board
   end
 
   def update_value(row, piece)
-    num = -1
-    empty = 0
-    if @grid[num][row] != empty
-      loop do
-        break if @grid[num][row] == empty
-
-        num -= 1
-      end
-    end
+    num = find_empty(row)
     @grid[num][row] = piece
   end
 
@@ -36,5 +30,18 @@ class Board
     num = -6
     empty = 0
     @grid[num][row] == empty
+  end
+
+  def find_empty(row)
+    num = -1
+    empty = 0
+    if @grid[num][row] != empty
+      loop do
+        break if @grid[num].nil? || @grid[num][row] == empty
+
+        num -= 1
+      end
+    end
+    num
   end
 end

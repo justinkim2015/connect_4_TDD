@@ -14,7 +14,17 @@ describe Board do
     end
   end
 
-  describe '#update_spot' do
+  describe '#find_empty' do
+    context 'when the row doesnt have one space left' do
+      it 'returns index of an empty spot on the array' do
+        row = 0
+        board.grid[5][0] = 'y'
+        expect(board.find_empty(row)).to eq(-2)
+      end
+    end
+  end
+
+  describe '#update_value' do
     context 'when spot is empty' do
       it 'changes spot' do
         piece = 'y'
