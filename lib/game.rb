@@ -31,7 +31,8 @@ class Game
     row = gets.chomp.to_i until valid?(row)
     place_piece(row, turn.color)
     board.drawboard
-    puts 'WINNER' if winner?(board.find_empty(row) + 1, row) # find_empty returns the space above the spot im looking for
+    puts 'WINNER' if winner?(board.find_empty(row) + 1, row)
+    # find_empty returns the space above the spot im looking for therefore + 1
     change_turn
   end
 
@@ -68,11 +69,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if (row - i).negative?
-        array << nil
-      else
-        array << board.grid[num][row - i]
-      end
+      array << ((row - i).negative? ? nil : board.grid[num][row - i])
       i += 1
     end
     win_con(array)
@@ -82,11 +79,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if board.grid[num + i].nil?
-        array << nil
-      else
-        array << board.grid[num + i][row]
-      end
+      array << (board.grid[num + i].nil? ? nil : board.grid[num + i][row])
       i += 1
     end
     win_con(array)
@@ -95,12 +88,8 @@ class Game
   def vertical_win_up?(num, row)
     array = []
     i = 0
-    4.times do # edit the rest of these like this
-      array << if board.grid[num - i].nil?
-                 nil
-               else
-                 board.grid[num - i][row]
-               end
+    4.times do 
+      array << (board.grid[num - i].nil? ? nil : board.grid[num - i][row])
       i += 1
     end
     win_con(array)
@@ -110,11 +99,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if board.grid[num - i].nil?
-        array << nil
-      else
-        array << board.grid[num - i][row + i]
-      end
+      array << (board.grid[num - i].nil? ? nil : board.grid[num - i][row + i])
       i += 1
     end
     win_con(array)
@@ -124,11 +109,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if board.grid[num + i].nil?
-        array << nil
-      else
-        array << board.grid[num + i][row - i]
-      end
+      array << (board.grid[num + i].nil? ? nil : board.grid[num + i][row - i])
       i += 1
     end
     win_con(array)
@@ -138,11 +119,11 @@ class Game
     array = []
     i = 0
     4.times do
-      if board.grid[num - i].nil? || board.grid[row - i].nil?
-        array << nil
-      else
-        array << board.grid[num - i][row - i]
-      end
+      array << if board.grid[num - i].nil? || board.grid[row - i].nil?
+                 nil
+               else
+                 board.grid[num - i][row - i]
+               end
       i += 1
     end
     win_con(array)
@@ -152,11 +133,7 @@ class Game
     array = []
     i = 0
     4.times do
-      if board.grid[num + i].nil?
-        array << nil
-      else
-        array << board.grid[num + i][row + i]
-      end
+      array << (board.grid[num + i].nil? ? nil : board.grid[num + i][row + i])
       i += 1
     end
     win_con(array)
