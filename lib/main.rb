@@ -3,6 +3,4 @@ require_relative './player'
 require_relative './game'
 
 game = Game.new
-loop do
-  game.take_turn
-end
+game.play_game

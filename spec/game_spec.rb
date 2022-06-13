@@ -15,21 +15,34 @@ describe Game do
     allow(board).to receive(:grid) { Array.new(6) { Array.new(7, 0) } }
   end
 
-  describe '#choose_column' do
+  describe '#filter_input' do
+    context 'when input is valid' do
+      it 'returns input' do
+        input = '4'
+        expect(game.filter_input(input)).to eq(4)
+      end
+    end
+
+    context 'when input is invalid' do
+      it 'returns an invalid number' do
+        input = 'dog'
+        expect(game.filter_input(input)).to eq(7)
+      end
+    end
   end
 
-  describe '#valid_input?' do
+  describe '#valid_number?' do
     context 'when row number is valid' do
       it 'returns true' do
         valid_num = 4
-        expect(game.valid_input?(valid_num)).to be true
+        expect(game.valid_number?(valid_num)).to be true
       end
     end
 
     context 'when row number is invalid' do
       it 'returns false' do
         invalid_num = 45
-        expect(game.valid_input?(invalid_num)).to be false
+        expect(game.valid_number?(invalid_num)).to be false
       end
     end
   end

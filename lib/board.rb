@@ -1,4 +1,5 @@
 require 'pry'
+require 'colorize'
 
 class Board
   attr_accessor :grid
@@ -19,6 +20,7 @@ class Board
       end
       puts "\n------------------------------"
     end
+    puts '  0   1   2   3   4   5   6'
   end
 
   def update_value(row, piece)
