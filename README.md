@@ -30,3 +30,14 @@ Finally I need to create the game logic.
       -column is = to board.grid[0-6], therefore write a function that takes the numbers 1-7 and selects the column.
         -first write a function that checks if the number is valid
       -puts a piece at the bottom of the column if the bottom of the column is open
+
+After this I switched to pen and paper to help visualize my board and think through some problems.
+
+CONCLUSIONS:
+Writing tests really helped to speed up some aspects of the debugging but at the same time the initial hump was difficult to get over.  I still need more practice with mocks, stubs, and doubles but i'll be continuing to use these in every project going forward from here so i'll be getting used to them that way.
+
+Having a test suite really did help me to feel more secure when I'm just randomly changing values in my program and it saved a ton of time when I wanted to test a small change that I would have to work through my problem manually to verify.
+
+However, I do feel that TDD itself sometimes felt like a drag on my time.  When I was writing really simple methods I felt that writing the tests took longer than actually writing out the method.
+
+All and all, this feels like a big upgrade to my skills are a coder and I'm looking forward to seeing how this changes the way I think about future projects.  
